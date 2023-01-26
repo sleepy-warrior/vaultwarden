@@ -1,0 +1,21 @@
+services:
+
+  postgres:
+    container_name: bitwarden_db
+    image: postgres:14
+    volumes:
+      - ./_db:/var/lib/postgresql/data
+    restart: always
+
+
+  bitwarden:
+    image: bitwardenrs/server
+    restart: always
+    ports:
+      - 8000:80
+    volumes:
+      - ./bw-data:/data
+    environment:
+      WEBSOCKET_ENABLED: 'true' # Required to use websockets
+      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
+
